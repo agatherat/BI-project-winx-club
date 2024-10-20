@@ -1,5 +1,6 @@
 # BI-project-winx-club
 
-Repozytorium zawiera plik README.md z opisem projektu, wykorzystanej
-wersji oprogramowania, sposobu uruchomienia i składu zespołu. 
+created by: Agnieszka Kulesz, MIchella Miłecka, Alicja Lendzioszek, Hania Gibus
+
+## Project description
 
