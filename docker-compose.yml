@@ -9,9 +9,12 @@ services:
       MYSQL_DATABASE: prestashop
     networks:
       - prestashop_network
+    volumes:
+      - dbdata:/var/lib/mysql
+
   prestashop:
     container_name: prestashop
-    image: prestashop/prestashop:1.7.8.11
+    image: prestashop/prestashop:1.7.8
     restart: unless-stopped
     depends_on:
       - mysql
@@ -22,7 +25,37 @@ services:
       DB_NAME: prestashop
       DB_USER: root
       DB_PASSWD: admin
+      PS_FOLDER_ADMIN: admin4577
+      PS_FOLDER_INSTALL: install4577
     networks:
       - prestashop_network
+    volumes:
+      - type: bind
+        source: ./modules/testModule
+        target: /var/www/html/modules/testModule
+      - type: bind
+        source: ./themes/myTheme
+        target: /var/www/html/themes/myTheme
+      - psdata:/var/www/html
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    depends_on:
+      - mysql
+    environment:
+      PMA_HOST: some-mysql
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+    restart: unless-stopped
+    ports:
+      - 8081:80
+    networks:
+      - prestashop_network
+
 networks:
   prestashop_network:
+
+volumes:
+  psdata:
+  dbdata:
