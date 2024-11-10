@@ -2,7 +2,7 @@ from urllib.request import urlopen
 from bs4 import BeautifulSoup
 import requests
 import json
-
+import os
 
 def getSubcategories(kategoria,categoryLink):
     urlSubcategories = categoryLink
@@ -79,22 +79,23 @@ html_bytes = page.read()
 html = html_bytes.decode("utf-8")
 soup = BeautifulSoup(html, "html.parser")
 
-getCategories(soup)
+#getCategories(soup)
 
 def getCategoriesNames(categoriesFile):
     with open(categoriesFile, 'r', encoding='utf-8') as f:
         return json.load(f)
 
-def getProducts(soup,url):
+def getProducts(url):
     response = requests.get(url)
     if response.status_code != 200:
         print(f"Nie udało się pobrać strony. Status code: {response.status_code}")
         return []
 
+    soup = BeautifulSoup(response.content, 'html.parser')
     # bierzemy wszystkie produkty
     try:
-        products = soup.select(".jet-woo-products__item")
-        #print(f"Znaleziono {len(products)} produktów na stronie: {url}")
+        products = soup.select(".jet-woo-products__item.jet-woo-builder-product")
+        print(f"Znaleziono {len(products)} produktów na stronie: {url}")
         productLinks = []
         for product in products:
             productUrl = product.select_one(".jet-woo-item-overlay-link")['href']
@@ -106,13 +107,25 @@ def getProducts(soup,url):
         print(f"Nie udało się pobrać produktów z {url}: {e}")
         return []
 
+def downloadProductImage(imageUrl, folder = 'images'):
+    imageName = imageUrl.split("/")[-1]
+    savePath = os.path.join(folder, imageName)
 
-def getProductDetails(soup, productUrl):
+    response = requests.get(imageUrl, stream=True)
+    if response.status_code == 200:
+        with open(savePath, 'wb') as file:
+            for chunk in response.iter_content(1024):
+                file.write(chunk)
+        return imageName
+    return None
+
+def getProductDetails(productUrl):
     response = requests.get(productUrl)
     if response.status_code != 200:
         print(f"Nie udało się pobrać strony produktu. Status code: {response.status_code}")
         return {}
 
+    soup = BeautifulSoup(response.content, 'html.parser')
 
     try:
         # pobieramy wszystkie dane danego produktu
@@ -123,7 +136,8 @@ def getProductDetails(soup, productUrl):
         descriptionElement = soup.select_one("#tab-description")
         description = descriptionElement.text.strip() if descriptionElement else "" # jak nie bedzie opisu dla produktu to zostawiamy puste pole
         stock = soup.select_one(".stock").text.strip()
-        productImage = soup.select_one(".woocommerce-product-gallery__image img")['src']
+        productImageUrl = soup.select_one(".woocommerce-product-gallery__image img")['src']
+        productImageName = downloadProductImage(productImageUrl)
 
         additionalInfo = {}
         attributesTable = soup.select_one(".woocommerce-product-attributes.shop_attributes")
@@ -144,7 +158,7 @@ def getProductDetails(soup, productUrl):
             "description": description,
             "additional info": additionalInfo,
             "stock": stock,
-            "image": productImage,
+            "image": productImageName,
             "url": productUrl
         }
 
@@ -155,17 +169,17 @@ def getProductDetails(soup, productUrl):
         return {}
 
 
-def processSubcategories(soup,subcategories):
+def processSubcategories(subcategories):
     productsData = {}
 
     for subcategoryName, subcategoryInfo in subcategories.items():
         #print(f"Pobieranie produktów z podkategorii: {subcategoryName} (Link: {subcategoryInfo['link']})")
 
-        productLinks = getProducts(soup, subcategoryInfo['link'])
+        productLinks = getProducts(subcategoryInfo['link'])
 
         products = []
         for productUrl in productLinks:
-            productDetails = getProductDetails(soup, productUrl)
+            productDetails = getProductDetails(productUrl)
             if productDetails:
                 products.append(productDetails)
 
@@ -175,12 +189,12 @@ def processSubcategories(soup,subcategories):
         }
 
         if subcategoryInfo['subcategories']:
-            productsData[subcategoryName]['subcategories'] = processSubcategories(soup, subcategoryInfo['subcategories'])
+            productsData[subcategoryName]['subcategories'] = processSubcategories(subcategoryInfo['subcategories'])
 
     return productsData
 
 
-def processCategories(soup, categories):
+def processCategories(categories):
     allCategoriesData = {}
 
     for categoryName, categoryInfo in categories.items():
@@ -190,7 +204,7 @@ def processCategories(soup, categories):
         }
 
         if categoryInfo['subcategories']:
-            categoryData['subcategories'] = processSubcategories(soup, categoryInfo['subcategories'])
+            categoryData['subcategories'] = processSubcategories(categoryInfo['subcategories'])
 
         allCategoriesData[categoryName] = categoryData
 
@@ -207,10 +221,10 @@ def saveProductsToJson(productsData, outputFile):
 categoriesFile = 'data.json'
 productsFile = 'test.json'
 
-#categories = getCategoriesNames(categoriesFile)
+categories = getCategoriesNames(categoriesFile)
 
 #
-#products_data = processCategories(soup, categories)
+products_data = processCategories(categories)
 #
-#saveProductsToJson(products_data, productsFile)
+saveProductsToJson(products_data, productsFile)
 
