@@ -3,6 +3,11 @@ from bs4 import BeautifulSoup
 import requests
 import json
 import os
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+import time
 
 def getSubcategories(kategoria,categoryLink):
     urlSubcategories = categoryLink
@@ -41,7 +46,6 @@ def getSubcategories(kategoria,categoryLink):
     return subcategories_dic
 
 
-
 def getCategories(soup):
     linkToCategories = soup.find("a", class_="elementor-item",string="Wszystkie produkty")
     urlCategories = linkToCategories["href"]
@@ -73,41 +77,62 @@ def getCategories(soup):
         json.dump(categories_dic, json_file, ensure_ascii=False, indent=4)
 
 
-url = "https://magiccafe.eu/"
-page = urlopen(url)
-html_bytes = page.read()
-html = html_bytes.decode("utf-8")
-soup = BeautifulSoup(html, "html.parser")
-
-#getCategories(soup)
-
 def getCategoriesNames(categoriesFile):
     with open(categoriesFile, 'r', encoding='utf-8') as f:
         return json.load(f)
 
-def getProducts(url):
-    response = requests.get(url)
-    if response.status_code != 200:
-        print(f"Nie udało się pobrać strony. Status code: {response.status_code}")
-        return []
 
-    soup = BeautifulSoup(response.content, 'html.parser')
-    # bierzemy wszystkie produkty
-    try:
+def getProducts(url):
+    productLinks = set()  # na stronie istnieje bug (1 strona posiada 24 produkty, 2 posiada 12 produktów które znajdywały się na 1 stronie), więc pozbywamy się duplikatów
+
+    driver = webdriver.Chrome()
+    driver.get(url)
+
+    while True:
+        time.sleep(3)
+
+        # czekamy, aż wszystkie produkty będą widoczne
+        try:
+            WebDriverWait(driver, 10).until(
+                EC.presence_of_element_located((By.CSS_SELECTOR, ".jet-woo-products__item.jet-woo-builder-product"))
+            )
+        except Exception as e:
+            print(f"Nie udało się załadować produktów: {e}")
+            break
+
+        soup = BeautifulSoup(driver.page_source, 'html.parser')
         products = soup.select(".jet-woo-products__item.jet-woo-builder-product")
-        print(f"Znaleziono {len(products)} produktów na stronie: {url}")
-        productLinks = []
+
+        # dla każdego produktu pobieramy jego url
         for product in products:
             productUrl = product.select_one(".jet-woo-item-overlay-link")['href']
-            productLinks.append(productUrl)
+            productLinks.add(productUrl)
 
-        return productLinks
+        try:
+            # sprawdzamy, czy przycisk 'Nast' jest dostepny i klikamy go
+            next_button = WebDriverWait(driver, 10).until(
+                EC.element_to_be_clickable((By.CSS_SELECTOR, ".jet-filters-pagination__item.prev-next.next"))
+            )
 
-    except Exception as e:
-        print(f"Nie udało się pobrać produktów z {url}: {e}")
-        return []
+            if next_button:
+                driver.execute_script("arguments[0].click();", next_button)
+                time.sleep(3)
+            else:
+                break  # jeśli przycisk nie jest dostępny, oznacza to że nie ma następnej strony (lub cos nie zadziałało) więc przerywamy działanie funkcji
+
+        except Exception as e:
+            print(f"Brak kolejnych stron lub przycisk 'Nast' niedostępny: {e}")
+            break  # nie udało się kliknąć przycisku, koniec wykonywania pętli
+
+    driver.quit()
+    return list(productLinks)
+
 
 def downloadProductImage(imageUrl, folder = 'images'):
+    # jeśli folder nie istnieje to najpierw go tworzymy
+    if not os.path.exists(folder):
+        os.makedirs(folder)
+
     imageName = imageUrl.split("/")[-1]
     savePath = os.path.join(folder, imageName)
 
@@ -118,6 +143,7 @@ def downloadProductImage(imageUrl, folder = 'images'):
                 file.write(chunk)
         return imageName
     return None
+
 
 def getProductDetails(productUrl):
     response = requests.get(productUrl)
@@ -150,7 +176,7 @@ def getProductDetails(productUrl):
 
         # jeśli produkt nie posiada dodatkowych informacji to zostawiamy puste
         if not additionalInfo:
-            additional_info = ""
+            additionalInfo = ""
 
         productDetails = {
             "name": name,
@@ -169,44 +195,40 @@ def getProductDetails(productUrl):
         return {}
 
 
-def processSubcategories(subcategories):
-    productsData = {}
+def processCategoryOrSubcategory(info):
+    """Pobiera produkty i podkategorie dla danej kategorii lub podkategorii."""
 
-    for subcategoryName, subcategoryInfo in subcategories.items():
-        #print(f"Pobieranie produktów z podkategorii: {subcategoryName} (Link: {subcategoryInfo['link']})")
+    categoryData = {
+        "link": info['link'],
+        "products": []
+    }
 
-        productLinks = getProducts(subcategoryInfo['link'])
+    # pobieramy produkty dla danej kategorii
+    productLinks = getProducts(info['link'])
+    products = []
+    for productUrl in productLinks:
+        productDetails = getProductDetails(productUrl)
+        if productDetails:
+            products.append(productDetails)
 
-        products = []
-        for productUrl in productLinks:
-            productDetails = getProductDetails(productUrl)
-            if productDetails:
-                products.append(productDetails)
+    categoryData['products'] = products
 
-        productsData[subcategoryName] = {
-            "link": subcategoryInfo['link'],
-            "products": products
-        }
+    # bedziemy przetwarzac podkategorie, jesli takowe istnieja
+    if info['subcategories']:
+        subcategoriesData = {}
+        for subcategoryName, subcategoryInfo in info['subcategories'].items():
+            subcategoriesData[subcategoryName] = processCategoryOrSubcategory(subcategoryInfo)
 
-        if subcategoryInfo['subcategories']:
-            productsData[subcategoryName]['subcategories'] = processSubcategories(subcategoryInfo['subcategories'])
+        categoryData['subcategories'] = subcategoriesData
 
-    return productsData
+    return categoryData
 
 
 def processCategories(categories):
     allCategoriesData = {}
 
     for categoryName, categoryInfo in categories.items():
-        categoryData = {
-            "link": categoryInfo['link'],
-            "products": []  # narazie nie pobieramy dla kaltegorii tylko dla samych podkategorii
-        }
-
-        if categoryInfo['subcategories']:
-            categoryData['subcategories'] = processSubcategories(categoryInfo['subcategories'])
-
-        allCategoriesData[categoryName] = categoryData
+        allCategoriesData[categoryName] = processCategoryOrSubcategory(categoryInfo)
 
     return allCategoriesData
 
@@ -217,14 +239,15 @@ def saveProductsToJson(productsData, outputFile):
     print(f"Produkty zapisane do pliku: {outputFile}")
 
 
+url = "https://magiccafe.eu/"
+page = urlopen(url)
+html_bytes = page.read()
+html = html_bytes.decode("utf-8")
+soup = BeautifulSoup(html, "html.parser")
 
-categoriesFile = 'data.json'
-productsFile = 'test.json'
-
-categories = getCategoriesNames(categoriesFile)
-
-#
-products_data = processCategories(categories)
-#
-saveProductsToJson(products_data, productsFile)
-
+getCategories(soup)  # pobieramy nazwy kategorii i ich podkategorii
+categoriesFile = 'data.json'  # w tym pliku przechowujemy nazwy kategorii i podkategorii
+productsFile = 'products.json'  # w tym pliku przechowujemy dane o produktach
+categories = getCategoriesNames(categoriesFile)  # z pliku wyciągamy nazwy kategorii
+products_data = processCategories(categories)  # pobieramy dane produktów
+saveProductsToJson(products_data, productsFile)   # zapisujemy pobrane dane do pliku
