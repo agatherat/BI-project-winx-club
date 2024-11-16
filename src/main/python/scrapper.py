@@ -156,9 +156,12 @@ def getProductDetails(productUrl):
     try:
         # pobieramy wszystkie dane danego produktu
         name = soup.select_one(".product_title").text.strip()
-        priceContainer = soup.find('span', class_='price')
+
+        summaryInner = soup.find('div', class_='summary-inner')
+        priceContainer = summaryInner.find('p', class_='price')
         priceElement = priceContainer.find('span', class_='woocommerce-Price-amount')
         price = priceElement.text.strip()
+
         descriptionElement = soup.select_one("#tab-description")
         description = descriptionElement.text.strip() if descriptionElement else "" # jak nie bedzie opisu dla produktu to zostawiamy puste pole
         stock = soup.select_one(".stock").text.strip()
