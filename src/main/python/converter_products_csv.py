@@ -5,13 +5,12 @@ with open('products.json', 'r', encoding='utf-8') as file:
     data = json.load(file)
 
 products_info = []
-#image,price after/bedore tax,?weight and producer?
 
 def save_product(product_name, product_url,category_path,product_description,product_price_after_tax,product_quantity):
     number_price_after_tax = product_price_after_tax.replace("zł", "").strip()
     number_price_after_tax = number_price_after_tax.replace(",", ".")
     price_after_tax_float = float(number_price_after_tax)
-    if product_quantity == "Brak w magazynie":
+    if product_quantity == "Out of stock" or product_quantity=="Brak w magazynie":
         quantity_number = 0
     else:
         quantity_number = int(product_quantity.split()[0])
@@ -44,10 +43,10 @@ def create_info_category(category_name, category_data, parent_category_path):
 for category_name, category_data in data.items():
     create_info_category(category_name, category_data, "")
 
-csv_data_products = pd.DataFrame(products_info)
+csv_data = pd.DataFrame(products_info)
 
-if 'URL' in csv_data_products.columns:
-    csv_data_products = csv_data_products.drop(columns=['URL'])
+if 'URL' in csv_data.columns:
+    csv_data = csv_data.drop(columns=['URL'])
 
-csv_data_products.to_csv('insert_products.csv', index=False, sep=';')
+csv_data.to_csv('insert_products.csv', index=False, sep=';')
 
