@@ -25,7 +25,7 @@ services:
       DB_PASSWD: admin
       PS_FOLDER_ADMIN: admin4577
       PS_FOLDER_INSTALL: install4577
-      PS_SSL_ENABLED: "1"               # Enable SSL in PrestaShop
+      PS_SSL_ENABLED: "1"
       PS_SSL_ENABLED_EVERYWHERE: "1"
     networks:
       - prestashop_network
@@ -53,7 +53,7 @@ services:
     networks:
       - prestashop_network
 
-  reverseproxy:
+  nginx:
     image: nginx:latest
     container_name: nginx
     restart: unless-stopped
