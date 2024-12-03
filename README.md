@@ -4,16 +4,31 @@ created by: [Agnieszka Kulesz](https://github.com/agatherat), [Michella Miłecka
 
 ## Project description
 The project for the subject "E-Business 2024/2025," consists of two stages in which students are tasked with creating an online store based on PrestaShop software.
+Website of online shop which was recreated by our team - [Magic Cafe](https://magiccafe.eu/)
 
+## Dependencies 
+- [PrestaShop 1.7.8](https://pl.prestashop.com/)
+- [Selenium 4.2.7](https://www.selenium.dev/)
+  
 ## Prerequisites
 1. Install [Docker](https://docs.docker.com/engine/install/)
 2. Clone repository: `git clone https://github.com/agatherat/BI-project-winx-club.git`
 3. [Create self-signed SSL certificate](#create-self-signed-ssl-certificate-for-windows)
 
 ## How to run
-1. 
+1. Ensure the configuration is complete, then open the command line and execute the following command:
+```powershell
+  docker-compose up
+```
+2. Access the services in your browser
+  Once the environment is up and running, you can open the following URLs in your browser:
+  - https://localhost:8081 - phpMyAdmin interface
+  - https://localhost - online store
+  - https://localhost/admin4577 - store Administration Panel
 
 ## Setup and Configuration Tips
+
+
 
 ### Create self-signed SSL certificate _(for Windows)_
 _**Prerequisites:** WSL (Windows Subsystem for Linux)_
