@@ -16,7 +16,15 @@ Website of online shop which was recreated by our team - [Magic Cafe](https://ma
 3. [Create self-signed SSL certificate](#create-self-signed-ssl-certificate-for-windows)
 
 ## How to run
-1. 
+1. Ensure the configuration is complete, then open the command line and execute the following command:
+```powershell
+  docker-compose up
+```
+2. Access the services in your browser
+  Once the environment is up and running, you can open the following URLs in your browser:
+  - http://localhost:8081 - phpMyAdmin interface
+  - http://localhost - online store
+  - http://localhost/admin - store Administration Panel
 
 ## Setup and Configuration Tips
 
