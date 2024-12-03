@@ -12,7 +12,7 @@ public class TestBase {
 
     @BeforeAll
     public static void initializeWebDriver() {
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\hania\\OneDrive\\Desktop\\STUDIA\\SEM5\\BI\\BI_projekt\\BI-project-winx-club\\drivers\\chromedriver-win64\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", ".\\drivers\\chromedriver-win64\\chromedriver.exe");
         //options
         driver = new ChromeDriver();
         driver.manage().window().maximize();
