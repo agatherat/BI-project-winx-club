@@ -16,7 +16,7 @@ Our team created a website for an online store named [Magic Cafe](https://magicc
 3. [Create self-signed SSL certificate](#create-self-signed-ssl-certificate-for-windows)
 
 ## How to run
-1. Ensure the configuration is complete, then open the command line and execute the following command:
+1. Ensure the configuration is complete, then open the command line (in project tree) and execute the following command:
 ```powershell
   docker-compose up
 ```
