@@ -4,7 +4,7 @@ created by: [Agnieszka Kulesz](https://github.com/agatherat), [Michella Miłecka
 
 ## Project description
 The project for the subject "E-Business 2024/2025," consists of two stages in which students are tasked with creating an online store based on PrestaShop software.
-Website of online shop which was recreated by our team - [Magic Cafe](https://magiccafe.eu/)
+Our team created a website for an online store named [Magic Cafe](https://magiccafe.eu/)
 
 ## Dependencies 
 - [PrestaShop 1.7.8](https://pl.prestashop.com/)
@@ -20,11 +20,11 @@ Website of online shop which was recreated by our team - [Magic Cafe](https://ma
 ```powershell
   docker-compose up
 ```
-2. Access the services in your browser
+2. Access the services in your browser.
   Once the environment is up and running, you can open the following URLs in your browser:
-  - https://localhost:8081 - phpMyAdmin interface
   - https://localhost - online store
   - https://localhost/admin4577 - store Administration Panel
+  - https://localhost:8081 - phpMyAdmin interface
 
 ## Setup and Configuration Tips
 
