@@ -7,7 +7,7 @@ with open('products.json', 'r', encoding='utf-8') as file:
 products_info = []
 vat_tax=23 # w procentach
 
-def save_product(product_name, product_url,category_path,product_description,product_price_after_tax,product_quantity):
+def save_product(product_name, product_url,category_path,product_description,product_price_after_tax,product_quantity,product_image):
     number_price_after_tax = product_price_after_tax.replace("zł", "").strip()
     number_price_after_tax = number_price_after_tax.replace(",", ".")
     price_after_tax_float = float(number_price_after_tax)
@@ -27,7 +27,8 @@ def save_product(product_name, product_url,category_path,product_description,pro
             'Description':product_description,
             'Price before tax': price_before_tax,
             'Tax Rule ID':tax_rule_id,
-            'Quantity':quantity_number
+            'Quantity':quantity_number,
+            'Image':product_image
         })
 
 def create_info_category(category_name, category_data, parent_category_path):
@@ -43,7 +44,7 @@ def create_info_category(category_name, category_data, parent_category_path):
 
     if "products" in category_data:
         for product in category_data["products"]:
-            save_product(product["name"],product["url"], current_category_path,product['description'],product['price'],product['stock'])
+            save_product(product["name"],product["url"], current_category_path,product['description'],product['price'],product['stock'],product['image'])
 
 for category_name, category_data in data.items():
     create_info_category(category_name, category_data, "")
