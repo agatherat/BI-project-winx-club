@@ -1,4 +1,6 @@
 import json
+import random
+
 import pandas as pd
 
 with open('products.json', 'r', encoding='utf-8') as file:
@@ -13,10 +15,14 @@ def save_product(product_name, product_url,category_path,product_description,pro
     price_after_tax_float = float(number_price_after_tax)
     price_before_tax=price_after_tax_float / (1 + (vat_tax / 100))
     price_before_tax=round(price_before_tax, 2)
-    if product_quantity == "Out of stock" or product_quantity=="Brak w magazynie":
-        quantity_number = 0
+
+    if random.random() < 0.1:
+        quantity_number=0
     else:
-        quantity_number = int(product_quantity.split()[0])
+        quantity_number=random.randint(1, 10)
+
+
+
     tax_rule_id=1
 
     if not any(prod['URL'] == product_url for prod in products_info):
