@@ -4,7 +4,12 @@ created by: [Agnieszka Kulesz](https://github.com/agatherat), [Michella Miłecka
 
 ## Project description
 The project for the subject "E-Business 2024/2025," consists of two stages in which students are tasked with creating an online store based on PrestaShop software.
+Website of online shop which was recreated by our team - [Magic Cafe](https://magiccafe.eu/)
 
+## Dependencies 
+- PrestaShop [1.7.8](https://github.com/PrestaShop/PrestaShop/releases/download/1.7.8.11/prestashop_1.7.8.11.zip)
+- Selenium 4.2.7
+  
 ## Prerequisites
 1. Install [Docker](https://docs.docker.com/engine/install/)
 2. Clone repository: `git clone https://github.com/agatherat/BI-project-winx-club.git`
@@ -16,11 +21,6 @@ The project for the subject "E-Business 2024/2025," consists of two stages in wh
 ## Setup and Configuration Tips
 
 
-## Setup and Configuration Tips
-### Dependencies 
-- PrestaShop [1.7.8](https://github.com/PrestaShop/PrestaShop/releases/download/1.7.8.11/prestashop_1.7.8.11.zip)
-- Python 3.11
-- Java 
 
 ### Create self-signed SSL certificate _(for Windows)_
 _**Prerequisites:** WSL (Windows Subsystem for Linux)_
