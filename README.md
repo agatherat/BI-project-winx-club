@@ -22,9 +22,9 @@ Website of online shop which was recreated by our team - [Magic Cafe](https://ma
 ```
 2. Access the services in your browser
   Once the environment is up and running, you can open the following URLs in your browser:
-  - http://localhost:8081 - phpMyAdmin interface
-  - http://localhost - online store
-  - http://localhost/admin - store Administration Panel
+  - https://localhost:8081 - phpMyAdmin interface
+  - https://localhost - online store
+  - https://localhost/admin - store Administration Panel
 
 ## Setup and Configuration Tips
 
