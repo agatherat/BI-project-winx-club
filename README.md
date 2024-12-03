@@ -4,30 +4,31 @@ created by: [Agnieszka Kulesz](https://github.com/agatherat), [Michella Miłecka
 
 ## Project description
 The project for the subject "E-Business 2024/2025," consists of two stages in which students are tasked with creating an online store based on PrestaShop software.
-
-Our team created a website for an online store named [Magic Cafe](https://magiccafe.eu/)
+Website of online shop which was recreated by our team - [Magic Cafe](https://magiccafe.eu/)
 
 ## Dependencies 
-- [PrestaShop 1.7.8](https://pl.prestashop.com/)
-- [Selenium 4.2.7](https://www.selenium.dev/blog/2024/selenium-4-27-released/)
+- PrestaShop: E-commerce platform (version: [1.7.8](https://github.com/PrestaShop/PrestaShop/releases/download/1.7.8.11/prestashop_1.7.8.11.zip))
+- Selenium: Browser automation tool 9 (version: 4.2.7)
+- phpMyAdmin: A web interface for managing and interacting with the MySQL database, allowing easy administration and data visualization.
+- Nginx: Web server
+- MySQL: Database management system
+- phpMyAdmin: Database administration tool
 
-  
 ## Prerequisites
 1. Install [Docker](https://docs.docker.com/engine/install/)
 2. Clone repository: `git clone https://github.com/agatherat/BI-project-winx-club.git`
 3. [Create self-signed SSL certificate](#create-self-signed-ssl-certificate-for-windows)
 
 ## How to run
-1. Ensure the configuration is complete, then open the command line (in the project tree) and execute the following command:
+1. Ensure the configuration is complete, then open the command line and execute the following command:
 ```powershell
   docker-compose up
 ```
-2. Access the services in your browser.
+2. Access the services in your browser
   Once the environment is up and running, you can open the following URLs in your browser:
+  - http://localhost:8081 - phpMyAdmin interface
   - https://localhost - online store
-  - https://localhost/admin4577 - store Administration Panel
-  - https://localhost:8081 - phpMyAdmin interface
-
+  - https://localhost/admin - store Administration Panel
 
 ## Setup and Configuration Tips
 
