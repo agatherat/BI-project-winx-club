@@ -15,6 +15,13 @@ The project for the subject "E-Business 2024/2025," consists of two stages in wh
 
 ## Setup and Configuration Tips
 
+
+## Setup and Configuration Tips
+### Dependencies 
+PrestaShop 1.7.8 [Install](https://github.com/PrestaShop/PrestaShop/releases/download/1.7.8.11/prestashop_1.7.8.11.zip)
+Python 3.11.
+Java 
+
 ### Create self-signed SSL certificate _(for Windows)_
 _**Prerequisites:** WSL (Windows Subsystem for Linux)_
 
