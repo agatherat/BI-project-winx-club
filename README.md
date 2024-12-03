@@ -8,7 +8,7 @@ Website of online shop which was recreated by our team - [Magic Cafe](https://ma
 
 ## Dependencies 
 - [PrestaShop 1.7.8](https://pl.prestashop.com/)
-- [Selenium 4.2.7](https://www.selenium.dev/)
+- [Selenium 4.2.7](https://www.selenium.dev/blog/2024/selenium-4-27-released/)
   
 ## Prerequisites
 1. Install [Docker](https://docs.docker.com/engine/install/)
