@@ -166,7 +166,7 @@ def getProductDetails(productUrl):
         description = descriptionElement.text.strip() if descriptionElement else "" # jak nie bedzie opisu dla produktu to zostawiamy puste pole
         stock = soup.select_one(".stock").text.strip()
         productImageUrl = soup.select_one(".woocommerce-product-gallery__image img")['src']
-        productImageName = downloadProductImage(productImageUrl)
+        ##productImageName = downloadProductImage(productImageUrl)
 
         additionalInfo = {}
         attributesTable = soup.select_one(".woocommerce-product-attributes.shop_attributes")
@@ -187,7 +187,7 @@ def getProductDetails(productUrl):
             "description": description,
             "additional info": additionalInfo,
             "stock": stock,
-            "image": productImageName,
+            "image": productImageUrl,
             "url": productUrl
         }
 
