@@ -4,11 +4,13 @@ created by: [Agnieszka Kulesz](https://github.com/agatherat), [Michella Miłecka
 
 ## Project description
 The project for the subject "E-Business 2024/2025," consists of two stages in which students are tasked with creating an online store based on PrestaShop software.
+
 Our team created a website for an online store named [Magic Cafe](https://magiccafe.eu/)
 
 ## Dependencies 
 - [PrestaShop 1.7.8](https://pl.prestashop.com/)
 - [Selenium 4.2.7](https://www.selenium.dev/blog/2024/selenium-4-27-released/)
+
   
 ## Prerequisites
 1. Install [Docker](https://docs.docker.com/engine/install/)
@@ -25,6 +27,7 @@ Our team created a website for an online store named [Magic Cafe](https://magicc
   - https://localhost - online store
   - https://localhost/admin4577 - store Administration Panel
   - https://localhost:8081 - phpMyAdmin interface
+
 
 ## Setup and Configuration Tips
 

@@ -1,0 +1,132 @@
+{
+    "Akcesoria": {
+        "link": "https://magiccafe.eu/product-category/akcesoria/",
+        "subcategories": {
+            "Akcesoria do pakowania": {
+                "link": "https://magiccafe.eu/product-category/akcesoria/akcesoria-do-pakowania/",
+                "subcategories": {}
+            },
+            "Albumy": {
+                "link": "https://magiccafe.eu/product-category/akcesoria/albumy/",
+                "subcategories": {}
+            },
+            "Gadżety": {
+                "link": "https://magiccafe.eu/product-category/akcesoria/gadzety/",
+                "subcategories": {}
+            },
+            "Kostki i liczniki życia": {
+                "link": "https://magiccafe.eu/product-category/akcesoria/kostki-i-liczniki-zycia/",
+                "subcategories": {}
+            },
+            "Koszulki na karty": {
+                "link": "https://magiccafe.eu/product-category/akcesoria/koszulki-na-karty/",
+                "subcategories": {
+                    "Standard Size": {
+                        "link": "https://magiccafe.eu/product-category/akcesoria/koszulki-na-karty/standard-size/",
+                        "subcategories": {}
+                    }
+                }
+            },
+            "Maty": {
+                "link": "https://magiccafe.eu/product-category/akcesoria/maty/",
+                "subcategories": {}
+            },
+            "Pudełka na karty": {
+                "link": "https://magiccafe.eu/product-category/akcesoria/pudelka-na-karty/",
+                "subcategories": {}
+            },
+            "Torby i plecaki": {
+                "link": "https://magiccafe.eu/product-category/akcesoria/torby-i-plecaki/",
+                "subcategories": {}
+            },
+            "Tuby": {
+                "link": "https://magiccafe.eu/product-category/akcesoria/tuby/",
+                "subcategories": {}
+            }
+        }
+    },
+    "Games Workshop": {
+        "link": "https://magiccafe.eu/product-category/games-workshop/",
+        "subcategories": {
+            "Warhammer": {
+                "link": "https://magiccafe.eu/product-category/games-workshop/warhammer/",
+                "subcategories": {
+                    "Age of Sigmar": {
+                        "link": "https://magiccafe.eu/product-category/games-workshop/warhammer/age-of-sigmar/",
+                        "subcategories": {}
+                    }
+                }
+            }
+        }
+    },
+    "Gry karciane": {
+        "link": "https://magiccafe.eu/product-category/gry-karciane/",
+        "subcategories": {
+            "Disney Lorcana": {
+                "link": "https://magiccafe.eu/product-category/gry-karciane/disney-lorcana/",
+                "subcategories": {
+                    "Boostery i Booster Boxy": {
+                        "link": "https://magiccafe.eu/product-category/gry-karciane/disney-lorcana/boostery-i-booster-boxy/",
+                        "subcategories": {}
+                    }
+                }
+            },
+            "Dragon Ball": {
+                "link": "https://magiccafe.eu/product-category/gry-karciane/dragon-ball/",
+                "subcategories": {}
+            },
+            "Flesh and Blood": {
+                "link": "https://magiccafe.eu/product-category/gry-karciane/flesh-and-blood/",
+                "subcategories": {
+                    "Boostery i Booster Boxy": {
+                        "link": "https://magiccafe.eu/product-category/gry-karciane/flesh-and-blood/fab-boostery-i-booster-boxy/",
+                        "subcategories": {}
+                    }
+                }
+            },
+            "Magic the gathering": {
+                "link": "https://magiccafe.eu/product-category/gry-karciane/magic-the-gathering-pl/",
+                "subcategories": {
+                    "Boostery i Booster Boxy": {
+                        "link": "https://magiccafe.eu/product-category/gry-karciane/magic-the-gathering-pl/mtg-boostery-i-booster-boxy/",
+                        "subcategories": {}
+                    },
+                    "Gotowe Talie": {
+                        "link": "https://magiccafe.eu/product-category/gry-karciane/magic-the-gathering-pl/mtg-gotowe-talie/",
+                        "subcategories": {}
+                    }
+                }
+            },
+            "One Piece": {
+                "link": "https://magiccafe.eu/product-category/gry-karciane/one-piece/",
+                "subcategories": {
+                    "Boostery i Booster Boxy": {
+                        "link": "https://magiccafe.eu/product-category/gry-karciane/one-piece/one-piece-boostery-i-booster-boxy/",
+                        "subcategories": {}
+                    },
+                    "Gotowe Talie": {
+                        "link": "https://magiccafe.eu/product-category/gry-karciane/one-piece/one-piece-gotowe-talie/",
+                        "subcategories": {}
+                    }
+                }
+            },
+            "Pokémon": {
+                "link": "https://magiccafe.eu/product-category/gry-karciane/pokemon/",
+                "subcategories": {
+                    "Boostery i Booster Boxy": {
+                        "link": "https://magiccafe.eu/product-category/gry-karciane/pokemon/pokemon-boostery-i-booster-boxy/",
+                        "subcategories": {}
+                    }
+                }
+            },
+            "Star Wars™: Unlimited": {
+                "link": "https://magiccafe.eu/product-category/gry-karciane/star-wars-unlimited/",
+                "subcategories": {}
+            }
+        }
+    },
+    "Puzzle": {
+        "link": "https://magiccafe.eu/product-category/puzzle/",
+        "subcategories": {}
+    }
+}
