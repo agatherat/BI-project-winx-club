@@ -9,7 +9,6 @@ Website of online shop which was recreated by our team - [Magic Cafe](https://ma
 ## Dependencies 
 - PrestaShop: E-commerce platform (version: [1.7.8](https://github.com/PrestaShop/PrestaShop/releases/download/1.7.8.11/prestashop_1.7.8.11.zip))
 - Selenium: Browser automation tool 9 (version: 4.2.7)
-- phpMyAdmin: A web interface for managing and interacting with the MySQL database, allowing easy administration and data visualization.
 - Nginx: Web server
 - MySQL: Database management system
 - phpMyAdmin: Database administration tool
