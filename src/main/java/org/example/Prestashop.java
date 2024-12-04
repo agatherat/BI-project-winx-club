@@ -1,6 +1,7 @@
 package org.example;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -11,6 +12,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
+import static java.lang.Thread.sleep;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -26,6 +28,8 @@ public class Prestashop {
     WebElement searchInputField;
     @FindBy(id = "_desktop_cart")
     WebElement cart;
+    @FindBy(id = "_desktop_user_info")
+    WebElement logIn;
 
 
     //Categories page
@@ -59,6 +63,19 @@ public class Prestashop {
 
     public void goBack() {driver.navigate().back();}
 
+    public void goToPage(String address) {driver.get(address);}
+
+    public void closePopUp() {
+        clickOn_byXpath("//*[@id=\"blockcart-modal\"]/div/div/div[1]/button");
+        System.out.println("PopUp closed");
+    }
+
+    public void waitForElement_byId(String id) {
+        System.out.println("Waiting for element: " + id);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(id)));
+    }
+
     public void waitForElement_byXpath(String xpath) {
         System.out.println("Waiting for element: " + xpath);
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
@@ -80,16 +97,41 @@ public class Prestashop {
         System.out.println("Go to menu Pokemon");
     }
 
+    public void clickOn_submenuAkcesoria() {
+        submenuAkcesoria.click();
+        System.out.println("Go to submenu Akcesoria");
+    }
+
+    public void clickOn_submenuPuzzle() {
+        submenuPuzzle.click();
+        System.out.println("Go to submenu Puzzle");
+    }
+
     public void clickOn_cart() {
         cart.click();
         System.out.println("Go to Cart");
     }
 
+    public void clickOn_logIn() {
+        logIn.click();
+        System.out.println("Go to LogIn");
+    }
+
+    public void clickOn_byId(String id) {
+        WebElement element = driver.findElement(By.id(id));
+        element.click();
+        System.out.println("Click element: " + id);
+    }
+
     public void clickOn_byXpath(String xpath) {
-        waitForElement_byXpath(xpath);
+        //waitForElement_byXpath(xpath);
         WebElement element = driver.findElement(By.xpath(xpath));
         element.click();
         System.out.println("Click element: " + xpath);
+    }
+
+    public boolean checkIfNotExists_byId(String id) {
+        return driver.findElements(By.id(id)).isEmpty();
     }
 
     public boolean checkIfEnabled_addToCartButton() {
@@ -104,12 +146,30 @@ public class Prestashop {
     }
 
     public void clickOn_addToCartButton() {
-        addToCartButton.click();
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+            WebElement addToCartButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"add-to-cart-or-refresh\"]/div[2]/div/div[2]/button")));
+            addToCartButton.click();
+
+        } catch (StaleElementReferenceException e) {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+            WebElement addToCartButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"add-to-cart-or-refresh\"]/div[2]/div/div[2]/button")));
+            addToCartButton.click();
+        }
         System.out.println("Click addToCartButton");
     }
 
     public void clickOn_quantityUpButton() {
-        quantityUpButton.click();
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+            WebElement addToCartButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"add-to-cart-or-refresh\"]/div[2]/div/div[1]/div/span[3]/button[1]")));
+            addToCartButton.click();
+
+        } catch (StaleElementReferenceException e) {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+            WebElement addToCartButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"add-to-cart-or-refresh\"]/div[2]/div/div[1]/div/span[3]/button[1]")));
+            addToCartButton.click();
+        }
         System.out.println("Click quantityUpButton");
     }
 
@@ -144,6 +204,37 @@ public class Prestashop {
         System.out.println("Searching for: " + text);
     }
 
+    public void addProductsToCart(String page, Integer productNumber) throws InterruptedException {
+        int count = 0;
+        int i = 1;
+
+        while (count < productNumber) {
+            String productXpath = "//*[@id=\"js-product-list\"]/div[1]/div[" + i + "]";
+
+            clickOn_byXpath(productXpath);
+
+            if (checkIfEnabled_addToCartButton()) {
+                for (int j = 0; j < (int) (Math.random() * 5); j++)
+                    clickOn_quantityUpButton();
+
+                sleep(1500);
+                clickOn_addToCartButton();
+
+                sleep(1500);
+                if(checkIfNotExists_byId("blockcart-modal")) {
+                    clearTextField_byId("quantity_wanted");
+                    sleep(1500);
+                    clickOn_addToCartButton();
+                }
+
+                count++;
+            }
+
+            goToPage(page);
+            i++;
+        }
+    }
+
     public void deleteProductFromCart_byXpath(String xpath) {
         WebElement element = driver.findElement(By.xpath(xpath));
         String deleteButtonXpath = xpath + "/div/div[3]/div/div[3]/div/a";
@@ -151,4 +242,15 @@ public class Prestashop {
         System.out.println("Product: " + xpath + " deleted from cart");
     }
 
+    public void logIn(String email, String password) {
+        clickOn_logIn();
+        inputTextField_byId("field-email", email);
+        inputTextField_byId("field-password", email);
+        clickOn_byId("submit-login");
+    }
+
+    public String getElementText_byXpath(String xpath) {
+        WebElement element = driver.findElement(By.xpath(xpath));
+        return element.getText();
+    }
 }
