@@ -7,9 +7,12 @@ The project for the subject "E-Business 2024/2025," consists of two stages in wh
 Website of online shop which was recreated by our team - [Magic Cafe](https://magiccafe.eu/)
 
 ## Dependencies 
-- PrestaShop [1.7.8](https://github.com/PrestaShop/PrestaShop/releases/download/1.7.8.11/prestashop_1.7.8.11.zip)
-- Selenium 4.2.7
-  
+- PrestaShop: E-commerce platform (version: [1.7.8](https://github.com/PrestaShop/PrestaShop/releases/download/1.7.8.11/prestashop_1.7.8.11.zip))
+- Selenium: Browser automation tool 9 (version: 4.2.7)
+- Nginx: Web server
+- MySQL: Database management system
+- phpMyAdmin: Database administration tool
+
 ## Prerequisites
 1. Install [Docker](https://docs.docker.com/engine/install/)
 2. Clone repository: `git clone https://github.com/agatherat/BI-project-winx-club.git`
@@ -22,7 +25,7 @@ Website of online shop which was recreated by our team - [Magic Cafe](https://ma
 ```
 2. Access the services in your browser
   Once the environment is up and running, you can open the following URLs in your browser:
-  - https://localhost:8081 - phpMyAdmin interface
+  - http://localhost:8081 - phpMyAdmin interface
   - https://localhost - online store
   - https://localhost/admin - store Administration Panel
 
