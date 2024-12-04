@@ -7,7 +7,7 @@ The project for the subject "E-Business 2024/2025," consists of two stages in wh
 
 Recreated online shop website: https://magiccafe.eu/
 
-## Dependencies 
+## Tech stack 
 - PrestaShop: E-commerce platform (version: [1.7.8](https://pl.prestashop.com/versions/))
 - Nginx: Web server
 - MySQL: Database management system
