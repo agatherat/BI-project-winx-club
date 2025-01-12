@@ -34,7 +34,7 @@ services:
       - prestashop_network
     volumes:
       - psdata:/var/www/html
-#    entrypoint: /tmp/init-db/init-db.sh
+    entrypoint: /tmp/init-db/init-db.sh
 
 networks:
   prestashop_network:
