@@ -2,6 +2,7 @@ FROM prestashop/prestashop:1.7.8
 
 COPY scripts/conf /tmp
 COPY dump.sql /tmp/sql/dump.sql
+COPY scripts/conf/init-db/init-db.sh /tmp/init-db/init-db.sh
 
 COPY certs/localhost.crt /etc/ssl/certs/localhost.crt
 COPY certs/localhost.key /etc/ssl/private/localhost.key
