@@ -1,47 +1,37 @@
 version: '3'
 services:
-  mysql:
-    container_name: some-mysql
-    image: mysql:5.7
-    restart: unless-stopped
-    environment:
-      MYSQL_ROOT_PASSWORD: admin
-      MYSQL_DATABASE: prestashop
-    networks:
-      - prestashop_network
-    volumes:
-      - dbdata:/var/lib/mysql
-
   prestashop:
-    container_name: prestashop
-    image: bi-project-winx-club
-    restart: unless-stopped
+    image: haniag/bi-winx-club:1.0.2
     depends_on:
       - mysql
     ports:
-      - 443:443
+      - 18897:443
     environment:
-      DB_SERVER: some-mysql
-      DB_NAME: prestashop
+      DB_SERVER: admin-mysql_db
+      DB_NAME: BE_188974
       DB_USER: root
-      DB_PASSWD: admin
+      DB_PASSWD: student
       PS_FOLDER_ADMIN: admin4577
       PS_FOLDER_INSTALL: install4577
+      PS_DOMAIN: localhost:18897
       PS_INSTALL_AUTO: 1
       PS_SSL_ENABLED: "1"
       PS_SSL_ENABLED_EVERYWHERE: "1"
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 512M
+        reservations:
+          cpus: '1.0'
+          memory: 256M
     networks:
-      - prestashop_network
-    volumes:
-      - psdata:/var/www/html
+      - admin-mysql_default
     entrypoint: /tmp/init-db/init-db.sh
 
 networks:
-  prestashop_network:
-
-volumes:
-  psdata:
-  dbdata:
+  admin-mysql_default:
+    external: true
 
 
 
@@ -56,15 +46,15 @@ volumes:
 #      MYSQL_DATABASE: prestashop
 #    networks:
 #      - prestashop_network
-#    volumes:
-#      - dbdata:/var/lib/mysql
 #
 #  prestashop:
 #    container_name: prestashop
-#    image: prestashop/prestashop:1.7.8
+#    image: ghcr.io/haniagibus/bi-winx-club:1.0.3
 #    restart: unless-stopped
 #    depends_on:
 #      - mysql
+#    ports:
+#      - 18897:443
 #    environment:
 #      DB_SERVER: some-mysql
 #      DB_NAME: prestashop
@@ -72,53 +62,15 @@ volumes:
 #      DB_PASSWD: admin
 #      PS_FOLDER_ADMIN: admin4577
 #      PS_FOLDER_INSTALL: install4577
+#      PS_DOMAIN: localhost:18897
+#      PS_INSTALL_AUTO: 1
 #      PS_SSL_ENABLED: "1"
 #      PS_SSL_ENABLED_EVERYWHERE: "1"
 #    networks:
 #      - prestashop_network
-#    volumes:
-#      - type: bind
-#        source: ./modules/testModule
-#        target: /var/www/html/modules/testModule
-#      - type: bind
-#        source: ./themes/myTheme
-#        target: /var/www/html/themes/myTheme
-#      - psdata:/var/www/html
-#
-#  phpmyadmin:
-#    image: phpmyadmin/phpmyadmin
-#    container_name: phpmyadmin
-#    depends_on:
-#      - mysql
-#    environment:
-#      PMA_HOST: some-mysql
-#      PMA_PORT: 3306
-#      PMA_ARBITRARY: 1
-#    restart: unless-stopped
-#    ports:
-#      - 8081:80
-#    networks:
-#      - prestashop_network
-#
-#  nginx:
-#    image: nginx:latest
-#    container_name: nginx
-#    restart: unless-stopped
-#    depends_on:
-#      - prestashop
-#    ports:
-#      - "443:443"
-#      - "80:80"
-#    volumes:
-#      - ./nginx.conf:/etc/nginx/nginx.conf:ro
-#      - ./certs/localhost.crt:/etc/certs/localhost.crt
-#      - ./certs/localhost.key:/etc/certs/localhost.key
-#    networks:
-#      - prestashop_network
+#    #    volumes:
+#    #      - ./psdata/html:/var/www/html
+#    entrypoint: /tmp/init-db/init-db.sh
 #
 #networks:
 #  prestashop_network:
-#
-#volumes:
-#  psdata:
-#  dbdata:
